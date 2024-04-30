@@ -10,4 +10,3 @@ class Customer(Base):
     name = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     phone_number = Column(String, unique=True, nullable=False)
-    address = Column(String, nullable=False)
