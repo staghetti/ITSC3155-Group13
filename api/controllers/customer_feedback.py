@@ -1,68 +1,67 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
-from ..models import orders as model
+from ..models import customer_feedback as model
 from sqlalchemy.exc import SQLAlchemyError
 
 
 def create(db: Session, request):
-    new_order = model.Order(
-        customer_name=request.customer_name,
-        description=request.description,
+    new_feedback = model.Feedback(
         customer_id=request.customer_id,
-        is_guest=request.is_guest
+        description=request.description,
+        rating=request.rating
     )
 
     try:
-        db.add(new_order)
+        db.add(new_feedback)
         db.commit()
-        db.refresh(new_order)
+        db.refresh(new_feedback)
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
-    return new_order
+    return new_feedback
 
 
 def read_all(db: Session):
     try:
-        result = db.query(model.Order).all()
+        result = db.query(model.Feedback).all()
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
 
 
-def read_one(db: Session, order_id):
+def read_one(db: Session, feedback_id):
     try:
-        order = db.query(model.Order).filter(model.Order.id == order_id).first()
-        if not order:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found!")
+        feedback = db.query(model.Feedback).filter(model.Feedback.id == feedback_id).first()
+        if not feedback:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Feedback not found!")
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
-    return order
+    return feedback
 
 
-def update(db: Session, order_id, request):
+def update(db: Session, feedback_id, request):
     try:
-        order = db.query(model.Order).filter(model.Order.id == order_id)
-        if not order.first():
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found!")
+        feedback = db.query(model.Feedback).filter(model.Feedback.id == feedback_id)
+        if not feedback.first():
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Feedback not found!")
         update_data = request.dict(exclude_unset=True)
-        order.update(update_data, synchronize_session=False)
+        feedback.update(update_data, synchronize_session=False)
         db.commit()
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
-    return order.first()
+    return feedback.first()
 
 
-def delete(db: Session, order_id):
+def delete(db: Session, feedback_id):
     try:
-        order = db.query(model.Order).filter(model.Order.id == order_id)
-        if not order.first():
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found!")
-        order.delete(synchronize_session=False)
+        feedback = db.query(model.Feedback).filter(model.Feedback.id == feedback_id)
+        if not feedback.first():
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Feedback not found!")
+        feedback.delete(synchronize_session=False)
         db.commit()
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])

@@ -4,13 +4,12 @@ from datetime import datetime
 from ..dependencies.database import Base
 
 
-class OrderDetail(Base):
-    __tablename__ = "order_details"
+class Payment(Base):
+    __tablename__ = "payments"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     order_id = Column(Integer, ForeignKey("orders.id"))
-    menu_item_id = Column(Integer, ForeignKey("menu_items.id"))
-    amount = Column(Integer, index=True, nullable=False)
+    customer_name = Column(String(100))
+    order_date = Column(DATETIME, nullable=False, server_default=str(datetime.now()))
+    total_price = Column(DECIMAL(4, 2), nullable=False, server_default='0.0')
 
-    menu_item = relationship("MenuItems", back_populates="order_details")
-    order = relationship("Order", back_populates="order_details")
