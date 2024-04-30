@@ -4,20 +4,20 @@ from pydantic import BaseModel
 
 class IngredientBase(BaseModel):
     name: str
-    amount: int
 
 
 class IngredientCreate(IngredientBase):
-    pass
+    inventory_quantity: int
 
 
 class IngredientUpdate(BaseModel):
     name: Optional[str] = None
-    amount: Optional[int] = None
+    inventory_quantity: Optional[int] = None
 
 
 class Ingredient(IngredientBase):
     id: int
+    inventory_quantity: int
 
     class ConfigDict:
         from_attributes = True
