@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from ..dependencies.database import Base
 
+
 class Customer(Base):
     __tablename__ = "customers"
 
@@ -11,3 +12,5 @@ class Customer(Base):
     email = Column(String(100), unique=True, nullable=False)
     phone_number = Column(String(100), unique=True, nullable=False)
     address = Column(String(100), nullable=False)
+
+    feedbacks = relationship("Feedback", back_populates="customer")  # links to feedback
