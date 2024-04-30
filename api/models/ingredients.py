@@ -10,4 +10,6 @@ class Ingredients(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), unique=True, nullable=False)
     amount = Column(Integer, nullable=False)
+    inventory_quantity = Column(Integer)
 
+    recipes = relationship("Recipe", back_populates="ingredient")
