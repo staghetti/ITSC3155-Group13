@@ -1,23 +1,22 @@
-from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
 
 
-class ResourceBase(BaseModel):
-    item: str
+class IngredientBase(BaseModel):
+    name: str
     amount: int
 
 
-class ResourceCreate(ResourceBase):
+class IngredientCreate(IngredientBase):
     pass
 
 
-class ResourceUpdate(BaseModel):
-    item: Optional[str] = None
+class IngredientUpdate(BaseModel):
+    name: Optional[str] = None
     amount: Optional[int] = None
 
 
-class Resource(ResourceBase):
+class Ingredient(IngredientBase):
     id: int
 
     class ConfigDict:
