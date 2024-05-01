@@ -1,17 +1,31 @@
 from datetime import date
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
-from ..models import orders as model
+from ..models import orders as model, promo_codes as promo_model
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import and_
 
 
 def create(db: Session, request):
+    # Check if the promo code is valid
+    if request.promo_code:
+        promo = db.query(promo_model.PromoCode).filter(and_(
+            promo_model.PromoCode.promo_code == request.promo_code,
+            promo_model.PromoCode.start_date <= date.today(),
+            promo_model.PromoCode.end_date >= date.today()
+        )).first()
+        if not promo:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid or expired promo code.")
+    else:
+        promo = None
+
     new_order = model.Order(
         customer_name=request.customer_name,
         description=request.description,
         customer_id=request.customer_id,
         is_guest=request.is_guest,
-        order_type=request.order_type
+        order_type=request.order_type,
+        promo_code=request.promo_code if promo else None
     )
 
     try:
