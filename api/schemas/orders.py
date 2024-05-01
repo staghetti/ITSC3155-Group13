@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Literal
 from pydantic import BaseModel
 from .order_details import OrderDetail
 
@@ -10,6 +10,7 @@ class OrderBase(BaseModel):
     customer_id: Optional[int] = None  # Allows null for guest orders
     description: Optional[str] = None
     is_guest: bool = True  # Indicates if the order is placed by a guest
+    order_type: Literal["Takeout", "Delivery", "Dine-In"] = "Dine-In"
 
 
 class OrderCreate(OrderBase):
