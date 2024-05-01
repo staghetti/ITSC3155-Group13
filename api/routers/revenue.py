@@ -20,7 +20,6 @@ def get_daily_revenue(db: Session, target_date: date):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
-# Example usage in a FastAPI route
 from fastapi import APIRouter, Depends
 
 router = APIRouter(
