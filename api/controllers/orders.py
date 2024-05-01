@@ -9,7 +9,8 @@ def create(db: Session, request):
         customer_name=request.customer_name,
         description=request.description,
         customer_id=request.customer_id,
-        is_guest=request.is_guest
+        is_guest=request.is_guest,
+        order_type=request.order_type
     )
 
     try:
