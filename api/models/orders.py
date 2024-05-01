@@ -11,8 +11,9 @@ class Order(Base):
     customer_id = Column(Integer, ForeignKey('customers.id'), nullable=True)  # Links to a customer if not a guest
     customer_name = Column(String(100))
     description = Column(String(300))
-    order_date = Column(DATETIME, nullable=False, server_default=str(datetime.now()))
+    order_date = Column(DATETIME, nullable=False, server_default=str(datetime.now))
     is_guest = Column(Boolean, default=True, nullable=False)
     order_type = Column(Enum("Takeout", "Delivery", "Dine-In", name="order_types"), default="Dine-In", nullable=False)
 
     order_details = relationship("OrderDetail", back_populates="order")
+    tracking = relationship("OrderTracking", back_populates="order")
