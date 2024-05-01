@@ -20,16 +20,16 @@ def read_all(db: Session = Depends(get_db)):
     return controller.read_all(db)
 
 
-@router.get("/{category_id}", response_model=schema.Category)
-def read_one(category_id: int, db: Session = Depends(get_db)):
-    return controller.read_one(db, category_id=category_id)
+@router.get("/{item_id}", response_model=schema.Category)
+def read_one(item_id: int, db: Session = Depends(get_db)):
+    return controller.read_one(db, item_id=item_id)
 
 
-@router.put("/{category_id}", response_model=schema.Category)
-def update(category_id: int, request: schema.CategoryUpdate, db: Session = Depends(get_db)):
-    return controller.update(db=db, request=request, category_id=category_id)
+@router.put("/{item_id}", response_model=schema.Category)
+def update(item_id: int, request: schema.CategoryUpdate, db: Session = Depends(get_db)):
+    return controller.update(db=db, request=request, item_id=item_id)
 
 
-@router.delete("/{category_id}")
-def delete_category(category_id: int, db: Session = Depends(get_db)):
-    return controller.delete(db=db, category_id=category_id)
+@router.delete("/{item_id}")
+def delete_category(item_id: int, db: Session = Depends(get_db)):
+    return controller.delete(db=db, item_id=item_id)
