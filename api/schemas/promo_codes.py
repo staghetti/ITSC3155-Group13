@@ -23,8 +23,6 @@ class PromoCodesUpdate(BaseModel):
 
 class PromoCode(PromoCodeBase):
     id: int
-    order_id: int = None
-    order_date: datetime = None
 
     class ConfigDict:
         from_attributes = True
