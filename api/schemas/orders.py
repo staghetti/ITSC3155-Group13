@@ -11,6 +11,7 @@ class OrderBase(BaseModel):
     description: Optional[str] = None
     is_guest: bool = True  # Indicates if the order is placed by a guest
     order_type: Literal["Takeout", "Delivery", "Dine-In"] = "Dine-In"
+    promo_code: Optional[str] = None
 
 
 class OrderCreate(OrderBase):
