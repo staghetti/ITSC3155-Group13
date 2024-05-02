@@ -11,5 +11,6 @@ class Payment(Base):
     order_id = Column(Integer, ForeignKey("orders.id"))
     customer_name = Column(String(100))
     order_date = Column(DATETIME, nullable=False, server_default=str(datetime.now()))
+    payment_method = Column(String(300))
     total_price = Column(DECIMAL(4, 2), nullable=False, server_default='0.0')
 
